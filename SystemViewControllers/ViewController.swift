@@ -83,6 +83,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         present(alertController, animated: true, completion: nil)
         
     }
+    // func for returning the selected photo
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            imageView.image = selectedImage
+            dismiss(animated: true, completion: nil)
+        }
+    }
     
     @IBAction func emailButtonTapped(_ sender: Any) {
     }
