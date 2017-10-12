@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     @IBAction func shareButtonTapped(_ sender: UIButton) {
         
         guard let image = imageView.image else {return}
-        
+        // add sharing to another app using ActivityVC
         let activityController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         activityController.popoverPresentationController?.sourceView = sender
         
