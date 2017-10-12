@@ -8,8 +8,9 @@
 
 import UIKit
 import SafariServices // to display web content
+import MessageUI
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
     
@@ -23,6 +24,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Dispose of any resources that can be recreated.
     }
 
+    
+    
+    
+    
     @IBAction func shareButtonTapped(_ sender: UIButton) {
         
         guard let image = imageView.image else {return}
@@ -33,6 +38,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         present(activityController, animated: true, completion: nil)
     }
     
+    
+    
+    
+    
+    // import SafariServices
     @IBAction func safariButtonTapped(_ sender: UIButton) {
         // create url from string, create instance of SFS and present SafariVC
         if let url = URL(string: "http://apple.com") {
@@ -41,6 +51,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
     }
+    
+    
+    
+    
     
     // to access the user's camera or photo library two protocols must be adopted: UIImagePickerControllerDelegate and UINavigationControllerDelegate
     // also in Info.plist enter a new key for NSPhotoLibraryUsageDescription (Privacy - Photo Library Usage), for value enter smth like "To share photos from the camera or photo library"
@@ -91,8 +105,30 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
+    
+    
+    
+    // send email from the app. import MessageUI. Need to adopt the MFMailComposeViewControllerDelegate protocol
     @IBAction func emailButtonTapped(_ sender: Any) {
+        // first check if the device capable of sending email
+        guard MFMailComposeViewController.canSendMail() else { print("Can not send mail")
+            return
+        }
+        
+        let mailComposer = MFMailComposeViewController()
+        mailComposer.mailComposeDelegate = self // set the VC as mail composer delegate
+        
+        mailComposer.setToRecipients(["example@example.com"])
+        mailComposer.setSubject("Look at this")
+        mailComposer.setMessageBody("Hello, cat", isHTML: false)
+        
+        present(mailComposer, animated: true, completion: nil)
     }
+    // the way to dismiss the mail compose VC and return to the app
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     
 }
 
